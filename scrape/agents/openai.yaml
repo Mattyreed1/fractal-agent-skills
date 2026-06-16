@@ -1,0 +1,4 @@
+interface:
+  display_name: "Scrape"
+  short_description: "Scrape sites with local tools and Apify MCP"
+  default_prompt: "Use $scrape to extract structured web data and run Apify MCP workflows reliably."

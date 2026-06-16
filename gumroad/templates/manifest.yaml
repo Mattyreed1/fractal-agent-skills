@@ -1,0 +1,79 @@
+# Gumroad product manifest.
+# Run: python3 ~/.claude/skills/gumroad/scripts/publish_product.py path/to/this.yaml
+#
+# Required env: GUMROAD_ACCESS_TOKEN
+# Required scope: edit_products (or account)
+#
+# Paths are resolved relative to this manifest's directory.
+
+# --- Required ---
+name: "Daily Report n8n Workflow"
+price: 2900                      # CENTS. $29.00 = 2900. Not dollars.
+
+# --- Highly recommended ---
+native_type: digital             # digital | course | ebook | membership | bundle | coffee | call | commission
+description: |
+  <h2>Stop writing daily standups by hand.</h2>
+  <p>This n8n workflow pulls from Gmail, Calendar, and Notion every morning,
+  runs an LLM pass, and posts a one-screen briefing to Discord and email.</p>
+  <ul>
+    <li>2 calendars, deduplicated</li>
+    <li>Auto-filters automated senders before LLM cost</li>
+    <li>Hardened blocked/calendar inclusion rules</li>
+  </ul>
+  <p><strong>Includes:</strong> the .json workflow + a setup README.</p>
+
+custom_summary: "One-screen daily briefing, fully automated."
+tags:
+  - n8n
+  - automation
+  - workflow
+  - productivity
+  - daily-report
+
+# --- Optional ---
+# custom_permalink: "daily-report-n8n"     # /l/daily-report-n8n
+# price_currency_type: usd
+# customizable_price: true                  # pay-what-you-want
+# suggested_price_cents: 4900
+# max_purchase_count: 100                   # inventory cap
+# taxonomy_id: "..."
+# subscription_duration: monthly            # only for native_type: membership
+
+# --- Files (digital downloads) ---
+# Each entry is a path relative to this manifest. Uploaded via /v2/files/presign.
+files:
+  - "./Daily-Report.workflow.json"
+  - "./README.md"
+
+# --- Cover images ---
+# Each entry is either {url: "https://..."} (preferred — works today)
+# or {file: "./local.png"} (requires Rails ActiveStorage direct uploads to be
+# publicly exposed; falls back gracefully with a warning if not).
+covers:
+  - url: "https://example.com/preview-hero.png"
+  # - file: "./preview-2.png"
+
+# --- Thumbnail (square image) ---
+# Path to a square image. Same upload caveat as file-based covers.
+# thumbnail: "./thumb.png"
+
+# --- Rich content pages (ProseMirror docs) ---
+# Each page becomes a tab in the buyer's content view.
+# rich_content:
+#   - id: "page-1"
+#     title: "Setup Guide"
+#     description:
+#       type: doc
+#       content:
+#         - type: paragraph
+#           content:
+#             - type: text
+#               text: "Import the workflow JSON into n8n, then add credentials..."
+
+# --- Offer codes (created after the product) ---
+# offer_codes:
+#   - name: "EARLYBIRD"
+#     amount_off: 1000          # cents off (with offer_type: cents)
+#     offer_type: cents         # or "percent" (then amount_off is the %)
+#     max_purchase_count: 50

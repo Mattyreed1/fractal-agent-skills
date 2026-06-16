@@ -1,0 +1,7 @@
+node_modules/
+.agent-board/
+__pycache__/
+*.pyc
+*.bak
+*.bak-*
+.DS_Store
