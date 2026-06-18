@@ -7,6 +7,8 @@ license: MIT + Apache 2.0 (Impeccable commands by pbakaus)
 
 This skill guides creation of distinctive, production-grade frontend interfaces that avoid generic "AI slop" aesthetics. Implement real working code with exceptional attention to aesthetic details and creative choices.
 
+**Apply the design principles.** Load the `design-principles` skill alongside this one — it encodes the action-first, progressive-disclosure, informed-simplicity, form-from-function, and behavior-lever principles every frontend here should satisfy. This skill is *how* to build; `design-principles` is *what good looks like*.
+
 ## Context Gathering Protocol
 
 Design skills produce generic output without project context. You MUST have confirmed design context before doing any design work.

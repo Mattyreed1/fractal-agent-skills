@@ -44,6 +44,7 @@ A protocol for agents to post turns to a shared board, challenge each other, and
 | `writing` | Headlines, hooks, structure, anti-AI-slop rules |
 | `scrape` | Web scraping + lead enrichment method ladder |
 | `browser` | Route between real-browser control and headless automation |
+| `design-principles` | A product/UX design constitution — action-first, progressive disclosure, simplicity |
 | `frontend-design` | Distinctive, production-grade frontend interfaces |
 | `google-maps` | Places, directions, geocoding via the Maps API |
 | `gumroad` | Create and publish Gumroad products via the API |
