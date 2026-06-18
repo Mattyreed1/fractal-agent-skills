@@ -1,0 +1,17 @@
+# State machine — every state is ONE shape (no diamonds; a diamond reads as a decision, not a
+# state). A small filled dot marks the initial state; the goal state is the focal. The two
+# back-edges are distinguished: feedback (amber) = rework, dataflow (muted) = re-enter the cycle.
+direction: right
+
+start: "" { shape: circle; width: 22; height: 22; style: { fill: "#5b6663"; stroke: "#5b6663" } }
+draft: Draft { class: node }
+review: In review { class: node }
+approved: Approved { class: node }
+published: Published { class: focal }
+
+start -> draft: { class: flow }
+draft -> review: submit { class: flow }
+review -> draft: changes { class: feedback }
+review -> approved: pass { class: flow }
+approved -> published: ship { class: accent }
+published -> draft: new version { class: dataflow }

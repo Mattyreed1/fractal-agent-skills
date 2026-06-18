@@ -1,0 +1,16 @@
+# Knowledge graph — entities + labeled relationships, no hierarchy. Circles are sized UNIFORMLY
+# (size must not leak from label length); the focal is the one slightly-larger, accented node.
+# Render with --layout elk for a balanced spread instead of a top-down tree.
+matty:    Matty           { shape: circle; width: 200; height: 200; class: focal }
+fractal:  Fractal AI      { shape: circle; width: 180; height: 180; class: node }
+ff:       Founder Freedom { shape: circle; width: 180; height: 180; class: node }
+ea:       EA              { shape: circle; width: 180; height: 180; class: node }
+molty:    Molty agents    { shape: circle; width: 180; height: 180; class: node }
+clients:  Clients         { shape: circle; width: 180; height: 180; class: external }
+
+matty -> fractal: founds { class: accent }
+matty -> ff: writes as { class: flow }
+matty -> ea: runs { class: flow }
+fractal -> molty: operates { class: flow }
+fractal -> clients: serves { class: flow }
+molty -> ea: collaborates { class: dataflow }
