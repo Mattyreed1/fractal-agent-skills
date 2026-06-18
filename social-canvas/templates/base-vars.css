@@ -1,0 +1,151 @@
+/*
+ * Fractal AI — Social Canvas Brand Tokens
+ * =========================================
+ * SINGLE SOURCE OF TRUTH. Every slide imports this via copy-paste into <style>.
+ * DO NOT override these values in individual slides.
+ *
+ * To use: Copy the @font-face blocks + :root block into every slide's <style> tag.
+ * Playwright renders local files, so file:// paths work.
+ */
+
+/* ── Font Loading ─────────────────────────────────────────────── */
+/* Brand stack (updated 2026-04-23):
+ *   Geist Sans     → body + headlines (weights 400/500/600/700/800)
+ *   Geist Mono     → labels, code, terminal, website note (weights 400/500/700)
+ *   Silkscreen     → eyebrows + micro-labels ONLY (14px, UPPERCASE, ls 0.18-0.28em)
+ * Load via Google Fonts. Copy the @import into every slide's <style> block.
+ */
+
+@import url('https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&family=Geist+Mono:wght@400;500;700;800&family=Silkscreen:wght@400;700&display=swap');
+
+/* ── Brand Tokens ─────────────────────────────────────────────── */
+
+:root {
+  /* Colors — Monochromatic */
+  --bg: #09090b;
+  --surface: #111113;
+  --border: #1c1c22;
+  --text: #fafafa;
+  --text-muted: #71717a;
+  --text-dim: #3f3f46;
+
+  /* Accent Palette — pick ONE per piece, used for ONE semantic meaning only */
+  /* Default is no accent (pure monochrome). See fractal-ai-visual-style.md */
+  --accent-teal: #00c6a2;     /* Fractal AI brand primary — see fractal-ai-visual-style.md */
+  --accent-emerald: #10b981;
+  --accent-blue: #3b82f6;
+  --accent-amber: #f59e0b;
+  --accent-pink: #ec4899;
+  --accent-gradient: linear-gradient(135deg, #00c6a2, #0077ff);
+
+  /* Fonts — updated 2026-04-23 */
+  --font-geist-sans: 'Geist', ui-sans-serif, system-ui, sans-serif;
+  --font-geist-mono: 'Geist Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+  --font-silkscreen: 'Silkscreen', ui-monospace, monospace;
+
+  /* Aliases (semantic — use these in slide CSS) */
+  --font-heading: var(--font-geist-sans);  /* headlines use Geist 700/800 */
+  --font-body: var(--font-geist-sans);     /* body uses Geist 400/500 */
+  --font-mono: var(--font-geist-mono);     /* labels, code, terminal */
+  --font-mono-bold: var(--font-geist-mono); /* same family, weight 700 */
+  --font-pixel: var(--font-silkscreen);    /* eyebrows ONLY, 14px uppercase */
+
+  /* Spacing (8px grid) */
+  --safe-zone: 64px;
+  --gap-lg: 32px;
+  --gap-md: 24px;
+  --gap-sm: 16px;
+  --gap-xs: 8px;
+
+  /* Typography Scale — LOCKED minimums */
+  --size-hero: 64px;       /* Hero/hook headlines */
+  --size-headline: 56px;   /* Content slide headlines */
+  --size-subhead: 30px;    /* Subtitles, descriptions */
+  --size-body: 26px;       /* Body text, list items */
+  --size-code: 24px;       /* Code blocks, terminal lines */
+  --size-label: 36px;      /* Section labels */
+  --size-caption: 20px;    /* Captions, footnotes */
+  --size-meta: 16px;       /* Handle, slide numbers */
+  --size-slide-num: 14px;  /* Slide counter */
+
+  /* Block sizing — LOCKED */
+  --block-height: 96px;    /* Visual blocks — SAME on every slide */
+  --block-radius: 0;       /* SHARP corners — the user 2026-04-23 */
+  --card-radius: 0;        /* SHARP corners — the user 2026-04-23 */
+  --indicator-width: 5px;  /* Thin colored indicator bars */
+
+  /* Logo */
+  --logo-height: 44px;
+  --logo-opacity: 1.0;
+
+  /* Background texture (dotted grid) — applied to body on every slide */
+  --bg-dot-size: 2px;
+  --bg-dot-spacing: 24px;
+  --bg-dot-opacity: 0.14;
+
+  /* Glass surface — semi-transparent blur for cards/containers */
+  --glass-bg: rgba(17, 17, 19, 0.55);
+  --glass-border: rgba(255, 255, 255, 0.12);
+  --glass-blur: 18px;
+}
+
+/* ── Reset ────────────────────────────────────────────────────── */
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+/* ── Canvas Base ──────────────────────────────────────────────── */
+/* Set body width/height per format: 1080x1080, 1080x1350, etc. */
+
+body {
+  overflow: hidden;
+  background-color: var(--bg);
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24'><rect x='0' y='0' width='2' height='2' fill='%23ffffff' fill-opacity='0.14'/></svg>");
+  background-size: 24px 24px;
+  background-position: 12px 12px; /* 1/2 square shift — dots sit off-axis so they don't clip the canvas edges. the user 2026-04-23. */
+  color: var(--text);
+  font-family: var(--font-body);
+}
+
+/* Glass card — use for every card/container/panel surface. Replaces opaque --surface fills. */
+.glass,
+.card,
+.panel {
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid var(--glass-border);
+  border-radius: var(--card-radius);
+}
+
+.canvas {
+  width: 100%;
+  height: 100%;
+  /* 64px top/sides, 28px bottom — drops the bottom bar into the safe-zone margin. the user confirmed 2026-04-23. */
+  padding: var(--safe-zone) var(--safe-zone) 28px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* ── Bottom Bar (every slide) ─────────────────────────────────── */
+/* align-items: center so the logo and website text sit on the same axis. the user 2026-04-23. */
+
+.bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 18px;
+}
+
+.bottom .logo {
+  height: var(--logo-height);
+  width: auto;
+  opacity: var(--logo-opacity);
+}
+
+.bottom-note {
+  font-family: var(--font-mono);
+  font-size: var(--size-slide-num);
+  color: var(--text-muted);
+  letter-spacing: 2px;
+}

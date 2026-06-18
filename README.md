@@ -29,6 +29,25 @@ Runs in **lite mode** (the reasoning skills) with zero setup. Add your own Perpl
 
 A protocol for agents to post turns to a shared board, challenge each other, and record a decision. Ships a **zero-infra local backend** (works immediately) and a **Convex backend** for real-time multi-machine setups, plus a note on mapping to Google's A2A standard.
 
+### ✍️ `content-pipeline` — the content engine
+
+Same idea as the decision engine, applied to publishing: one piece moves through a **chain of single-purpose stages**, each its own skill, instead of one prompt trying to do everything.
+
+```
+content-strategy                   ← optional Stage 0: pillars, editorial calendar, channel mix
+content-pipeline                   ← orchestrator (routes a piece by its Stage field)
+├─ content-ideation    diverge on angles, converge on one concept
+├─ content-brief       assemble the context + proof brief (hook-agnostic)
+├─ content-hooks       generate + grade title and hook options
+├─ content-scripting   write the full post from the chosen hook
+├─ content-visuals     on-brand diagrams / infographics for the post
+├─ content-packaging   lead magnet + capture form + landing page
+└─ content-publish     publish, then collect 7-day metrics
+                       (content-case-study is a specialized ideation→brief entry for client work)
+```
+
+The stages lean on supporting skills: `content-hooks` calls `hook-machine`, `content-visuals` calls `diagram-design` / `social-canvas`, briefs pull from `notion`, and `lead-magnet` / `youtube-script` extend the cascade. All are included. The skills are written as a **template** — plug your own Notion DB IDs and channel into the `<...>` placeholders.
+
 ## All skills
 
 | Skill | What it does |
@@ -52,6 +71,23 @@ A protocol for agents to post turns to a shared board, challenge each other, and
 | `mcp-setup` | Install, configure, and debug MCP servers |
 | `skill-creator` | Create, edit, and eval-test Claude Code skills |
 | `skillforge` | Route to or create the right skill; dedupe before building |
+| **Content Engine** | |
+| `content-pipeline` | Orchestrate a piece through the 7 content stages |
+| `content-strategy` | Plan pillars, editorial calendar, channel mix (the layer above) |
+| `content-ideation` | Diverge then converge on the angle for a content seed |
+| `content-brief` | Assemble the context + proof brief for a locked concept |
+| `content-hooks` | Generate and grade title + hook options against a rubric |
+| `content-scripting` | Write the full post from an approved hook |
+| `content-visuals` | Create on-brand diagrams / infographics for a post |
+| `content-packaging` | Lead magnet + capture form + landing page assembly |
+| `content-publish` | Publish and collect 7-day performance metrics |
+| `content-case-study` | Turn a real client engagement into a case-study brief |
+| `hook-machine` | Build a data-driven hook rubric from your top/bottom posts |
+| `diagram-design` | Brand-styled D2 diagrams (SVG / PNG) |
+| `social-canvas` | Render social graphics / carousels via a headless browser |
+| `lead-magnet` | Turn expertise into a downloadable lead magnet |
+| `youtube-script` | Long-form founder-story / personal-journey video scripts |
+| `notion` | Notion MCP setup, schema-caching discipline, and API gotchas |
 
 ## Install
 

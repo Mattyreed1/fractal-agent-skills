@@ -1,0 +1,18 @@
+# Sequence — time-ordered handoffs. Real title (not the container id). The human (Matty) is
+# the focal; agent-to-agent messages recede. The Molty exchange is wrapped in a message group.
+handoff: Content handoff {
+  shape: sequence_diagram
+  matty: Matty { class: focal }
+  ea: EA { class: node }
+  co: CO (Molty) { class: node }
+  cc: CC (Molty) { class: node }
+
+  matty -> ea: approve concept { class: accent }
+  ea -> co: delegate task { class: flow }
+  "Molty execution": {
+    co -> cc: assign draft { class: flow }
+    cc -> co: draft ready { class: dataflow }
+  }
+  co -> ea: for review { class: dataflow }
+  ea -> matty: ship it { class: accent }
+}

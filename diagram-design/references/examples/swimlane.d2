@@ -1,0 +1,28 @@
+# Swimlane — a process crossing actors. Lanes are group containers; the cross-lane handoffs
+# ARE the story. The critical handoff (approval) is the one accent edge.
+# Rendered with ELK (set below): its layered orthogonal layout aligns the lanes into equal
+# bands with clean right-angle handoffs — far closer to a true swimlane than dagre's diagonals.
+vars: { d2-config: { layout-engine: elk } }
+direction: right
+
+matty: MATTY {
+  class: group
+  idea: "Idea" { class: node }
+  approve: "Approve?" { class: gate }
+}
+ea: EA {
+  class: group
+  brief: "Brief" { class: node }
+  package: "Package" { class: node }
+}
+molty: MOLTY {
+  class: group
+  draft: "Draft" { class: node }
+  publish: "Publish" { class: focal }
+}
+
+matty.idea -> ea.brief: { class: flow }
+ea.brief -> molty.draft: { class: flow }
+molty.draft -> matty.approve: submit { class: flow }
+matty.approve -> ea.package: approved { class: accent }
+ea.package -> molty.publish: ship { class: flow }

@@ -1,0 +1,17 @@
+# Decision tree — gates with yes/no branches. The whole SUCCESS path glows accent (the
+# happy-path highlight); reject/detour branches stay muted, and dead-ends use the external shape.
+direction: down
+
+start: "New content idea" { class: node }
+q1: "On-brand?" { class: gate }
+q2: "Have proof / data?" { class: gate }
+drop: "Drop it" { class: external }
+research: "Gather proof" { class: node }
+build: "Build + ship" { class: focal }
+
+start -> q1: { class: flow }
+q1 -> q2: yes { class: accent }
+q1 -> drop: no { class: flow }
+q2 -> build: yes { class: accent }
+q2 -> research: no { class: flow }
+research -> build: { class: accent }

@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&family=Geist+Mono:wght@400;500;700;800&family=Silkscreen:wght@400;700&display=swap');
+
+  /*
+   * FONT LOADING
+   * Use file:// absolute paths to canvas-fonts directory.
+   * Only declare fonts you actually use in this slide.
+   */
+  
+  
+  /*
+   * BRAND COLORS & FONTS (CSS Custom Properties)
+   * Populated from brand config JSON. Change these values per brand.
+   */
+  :root {
+    --primary: #6366f1;
+    --secondary: #a855f7;
+    --accent: #06b6d4;
+    --bg: #0f0f23;
+    --text: #ffffff;
+    --text-muted: #94a3b8;
+    --font-heading: 'Geist', sans-serif;
+    --font-body: 'Geist', sans-serif;
+    --font-mono: 'Geist Mono', monospace;
+
+    /* Spacing system (8px grid) */
+    --safe-zone: 60px;
+    --gap-sm: 16px;
+    --gap-md: 32px;
+    --gap-lg: 48px;
+    --gap-xl: 64px;
+  }
+
+  /*
+   * CANVAS RESET
+   * Width and height MUST match render.py --width and --height exactly.
+   * overflow:hidden prevents any content from bleeding outside canvas.
+   */
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    width: 1080px;   /* ← Match --width */
+    height: 1350px;  /* ← Match --height */
+    overflow: hidden;
+    background-color: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 28px;
+    line-height: 1.4;
+  }
+
+  /*
+   * SAFE ZONE CONTAINER
+   * All content goes inside this. Nothing touches the canvas edges.
+   */
+  .canvas {
+    width: 100%;
+    height: 100%;
+    padding: var(--safe-zone);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;  /* Vertically center content */
+    gap: var(--gap-md);
+  }
+
+  /*
+   * TYPOGRAPHY SCALE
+   * Headline: 64-80px  |  Subhead: 36-48px  |  Body: 24-32px  |  Caption: 18-24px
+   */
+  .headline {
+    font-family: var(--font-heading);
+    font-size: 72px;
+    font-weight: bold;
+    line-height: 1.1;
+    color: var(--text);
+  }
+
+  .subhead {
+    font-family: var(--font-body);
+    font-size: 36px;
+    line-height: 1.3;
+    color: var(--text-muted);
+  }
+
+  .body-text {
+    font-family: var(--font-body);
+    font-size: 28px;
+    line-height: 1.5;
+    color: var(--text);
+  }
+
+  .caption {
+    font-family: var(--font-body);
+    font-size: 20px;
+    line-height: 1.4;
+    color: var(--text-muted);
+  }
+
+  .stat-number {
+    font-family: var(--font-heading);
+    font-size: 140px;
+    font-weight: bold;
+    line-height: 1.0;
+    color: var(--accent);
+  }
+
+  /*
+   * UTILITY CLASSES
+   */
+  .accent { color: var(--accent); }
+  .muted { color: var(--text-muted); }
+  .text-center { text-align: center; }
+  .flex-grow { flex-grow: 1; }
+  .flex-row { display: flex; flex-direction: row; gap: var(--gap-md); align-items: center; }
+
+  /* Accent bar — horizontal decorative line */
+  .accent-bar {
+    width: 80px;
+    height: 4px;
+    background-color: var(--accent);
+    border-radius: 2px;
+  }
+
+  /* Handle/attribution at bottom */
+  .handle {
+    font-family: var(--font-body);
+    font-size: 20px;
+    color: var(--text-muted);
+    margin-top: auto;  /* Push to bottom of flex container */
+  }
+</style>
+</head>
+<body>
+  <div class="canvas">
+    <!-- EXAMPLE: Title slide layout -->
+    <div class="accent-bar"></div>
+    <h1 class="headline">Your Headline Goes Here</h1>
+    <p class="subhead">Supporting subtitle text that adds context</p>
+    <div class="handle">@mattyfreed</div>
+  </div>
+</body>
+</html>

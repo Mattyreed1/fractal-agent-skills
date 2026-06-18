@@ -1,0 +1,55 @@
+# Fractal AI diagram design system — dark canvas, restrained palette, ONE focal point.
+# Prepended by diagram-design/scripts/render.sh when --brand fractal (default).
+#
+# Apply a class to each NODE:  class: node | focal | data | gate | external | group
+#   node     quiet process/step (the default for most nodes)
+#   focal    THE one focal point — solid teal, the only shadow. Use ONCE per diagram.
+#   data     data store / memory (renders as a cylinder)
+#   gate     decision / human gate (renders as a diamond)
+#   external system outside the boundary (dashed, muted)
+#   group    a container/grouping box (apply to a node that has children)
+#
+# Apply a class to each EDGE:  class: flow | accent | feedback | dataflow
+#   flow      normal flow (muted)
+#   accent    the path INTO the focal node (teal, width 2) — the one bright edge
+#   feedback  retry / revise / kickback loop (dashed muted-amber)
+#   dataflow  data / context / async (dashed muted-teal)
+# Edge classes carry the brand color, so the SAME diagram renders correctly on
+# --brand founder-freedom (where accent becomes amber). Prefer them over inline styles.
+# See references/design-heuristics.md and references/diagram-types.md.
+vars: {
+  d2-config: {
+    theme-id: 200
+    pad: 50
+    theme-overrides: {
+      N1: "#e8ecea"
+      N2: "#c7d0cd"
+      N3: "#8b9794"
+      N4: "#3a4441"
+      N5: "#222a27"
+      N6: "#13161a"
+      N7: "#09090b"
+      B1: "#00c6a2"
+      B2: "#00c6a2"
+      B3: "#14b8a6"
+      B4: "#1c1c22"
+      B5: "#141418"
+      B6: "#0d0d10"
+    }
+  }
+}
+classes: {
+  # Node roles. Shadow lives ONLY on focal — depth is a focal-only signal, so quiet
+  # nodes stay flat and recede (shadows-on-everything reads as slop on a dark canvas).
+  node:     { style: { fill: "#13161a"; stroke: "#2b3431"; stroke-width: 1; font-color: "#e8ecea" } }
+  focal:    { style: { fill: "#00c6a2"; stroke: "#063b32"; stroke-width: 2; font-color: "#04201b"; shadow: true; bold: true; font-size: 26 } }
+  data:     { shape: cylinder; style: { fill: "#10151a"; stroke: "#2b3431"; stroke-width: 1; font-color: "#c7d0cd" } }
+  gate:     { shape: diamond;  style: { fill: "#16130d"; stroke: "#9a7327"; stroke-width: 1; font-color: "#e9d6ad" } }
+  external: { style: { fill: "#0d0f12"; stroke: "#3a3f3d"; stroke-width: 1; stroke-dash: 3; font-color: "#9aa4a1" } }
+  group:    { style: { fill: "#0d0f12"; stroke: "#1e2421"; stroke-width: 1; font-color: "#6c7975"; fill-pattern: grain } }
+  # Edge roles. accent = the single bright edge into the focal; everything else recedes.
+  flow:     { style: { stroke: "#3a4441"; stroke-width: 1 } }
+  accent:   { style: { stroke: "#00c6a2"; stroke-width: 2 } }
+  feedback: { style: { stroke: "#6b5a2f"; stroke-width: 1; stroke-dash: 3 } }
+  dataflow: { style: { stroke: "#313d3a"; stroke-width: 1; stroke-dash: 3 } }
+}

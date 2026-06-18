@@ -1,0 +1,28 @@
+# Founder Freedom diagram design system — hand-drawn sketch, warm + approachable, ONE focal point.
+# Prepended by diagram-design/scripts/render.sh when --brand founder-freedom.
+# Same class names as the fractal preset, so a diagram is portable between brands:
+#   class: node | focal | data | gate | external | group
+#
+# NOTE: FF palette is not locked. This uses a warm cream base + a single amber focal + sketch mode
+# (the hand-drawn look IS the personality). Refine the colors here once the FF brand is defined.
+vars: {
+  d2-config: {
+    sketch: true
+    pad: 50
+    theme-id: 1
+  }
+}
+classes: {
+  # Node roles (sketch mode supplies the personality; no shadows on the cream canvas).
+  node:     { style: { fill: "#fbf7f0"; stroke: "#3a352e"; stroke-width: 1; font-color: "#2a2622" } }
+  focal:    { style: { fill: "#f59e0b"; stroke: "#7a4d05"; stroke-width: 2; font-color: "#241704"; bold: true; font-size: 26 } }
+  data:     { shape: cylinder; style: { fill: "#f1ebe0"; stroke: "#3a352e"; stroke-width: 1; font-color: "#2a2622" } }
+  gate:     { shape: diamond;  style: { fill: "#fdf3df"; stroke: "#b3801f"; stroke-width: 1; font-color: "#4a3a12" } }
+  external: { style: { fill: "#f4efe6"; stroke: "#8a8377"; stroke-width: 1; stroke-dash: 3; font-color: "#6a635a" } }
+  group:    { style: { fill: "#f7f2e9"; stroke: "#cabfa9"; stroke-width: 1; font-color: "#8a8377" } }
+  # Edge roles — same names as fractal so a diagram is portable. accent = FF amber (not teal).
+  flow:     { style: { stroke: "#8a7d68"; stroke-width: 1 } }
+  accent:   { style: { stroke: "#f59e0b"; stroke-width: 2 } }
+  feedback: { style: { stroke: "#b3801f"; stroke-width: 1; stroke-dash: 3 } }
+  dataflow: { style: { stroke: "#a99e88"; stroke-width: 1; stroke-dash: 3 } }
+}

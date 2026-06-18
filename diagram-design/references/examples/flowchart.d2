@@ -1,0 +1,27 @@
+# Flowchart — numbered pipeline, one decision gate, one feedback loop, one terminal data write.
+# Steps share one shape (rectangle); the hexagon is reserved for services, not pipeline steps.
+# Kept to a single back-edge (revise) so the spine stays straight — extra loops staircase dagre.
+direction: down
+
+idea: "Idea / brief" { shape: page; class: node }
+
+engine: "CONTENT ENGINE" {
+  class: group
+  ideation: "1 · Ideation" { class: node }
+  brief: "2 · Brief"       { class: node }
+  script: "3 · Scripting"  { class: node }
+  visuals: "4 · Visuals"   { class: node }
+}
+
+review: "Approve?"     { class: gate }
+publish: "Publish"     { class: focal }
+kg: "Knowledge graph"  { class: data }
+
+idea -> engine.ideation: { class: flow }
+engine.ideation -> engine.brief: { class: flow }
+engine.brief -> engine.script: { class: flow }
+engine.script -> engine.visuals: { class: flow }
+engine.visuals -> review: { class: flow }
+review -> publish: yes { class: accent }
+review -> engine.script: revise { class: feedback }
+publish -> kg: log { class: dataflow }

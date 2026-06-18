@@ -1,0 +1,52 @@
+{
+  "brand_name": "Fractal AI",
+  "website": "fractalai.agency",
+  "colors": {
+    "background": "#09090b",
+    "surface": "#111113",
+    "border": "#1c1c22",
+    "text": "#fafafa",
+    "text_muted": "#71717a",
+    "text_dim": "#3f3f46"
+  },
+  "accent_palette": {
+    "teal": "#00c6a2",
+    "emerald": "#10b981",
+    "blue": "#3b82f6",
+    "amber": "#f59e0b",
+    "pink": "#ec4899"
+  },
+  "accent_gradient": "linear-gradient(135deg, #00c6a2, #0077ff)",
+  "glass": {
+    "bg": "rgba(17, 17, 19, 0.55)",
+    "border": "rgba(255, 255, 255, 0.12)",
+    "blur": "18px"
+  },
+  "color_rules": "Pick ONE accent color per piece. That color carries ONE meaning throughout. Default is monochromatic (no accent). See references/fractal-ai-visual-style.md for full rules.",
+  "fonts": {
+    "loading_method": "google_fonts_import",
+    "import_url": "https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&family=Geist+Mono:wght@400;500;700;800&family=Silkscreen:wght@400;700&display=swap",
+    "sans": "Geist",
+    "mono": "Geist Mono",
+    "eyebrow": "Silkscreen"
+  },
+  "logos": {
+    "tree_with_text_transparent": "brand-assets/fractal-ai-logo-tree-text-transparent-bg.png",
+    "tree_with_text": "brand-assets/fractal-ai-logo-tree-text.png",
+    "tree_lg": "brand-assets/lg_fractal-ai-logo-tree.png",
+    "tree_lg_transparent": "brand-assets/lg_fractal-ai-logo-tree-transparent.png",
+    "tree_md": "brand-assets/md_fractal-ai-logo-tree.png",
+    "tree_md_transparent": "brand-assets/md_fractal-ai-logo-tree-transparent-bg.png",
+    "tree_xs": "brand-assets/xs_fractal-ai-logo-tree.png"
+  },
+  "logo_render": {
+    "default": "tree_with_text_transparent",
+    "height_px": 44,
+    "opacity": 1.0,
+    "position": "bottom-left"
+  },
+  "style": "monochromatic-technical",
+  "branding_element": "logo",
+  "branding_note": "Use Fractal AI logo (tree_with_text_transparent) in bottom-left of every slide. NEVER use a text handle like @username. Pair with the website note (right side of bottom bar) — never a slide number.",
+  "visual_style_ref": "references/fractal-ai-visual-style.md"
+}

@@ -1,0 +1,29 @@
+# Architecture — components in a boundary, shared data stores grouped, control vs data flow.
+# Solid edges = control flow; dashed = data/async. The two stores live in one MEMORY group.
+direction: right
+
+user: "Discord" { shape: person; class: external }
+
+gateway: "OPENCLAW GATEWAY" {
+  class: group
+  orchestrator: "Orchestrator" { shape: hexagon; class: node }
+  agents: "Specialist agents" { shape: hexagon; class: node }
+}
+
+mcp: "MCP tools" { class: node }
+deliver: "Shipped work" { class: focal }
+
+memory: "SHARED MEMORY" {
+  class: group
+  blackboard: "Blackboard" { class: data }
+  brain: "Knowledge graph" { class: data }
+}
+
+user -> gateway.orchestrator: request { class: flow }
+gateway.orchestrator -> gateway.agents: delegate { class: flow }
+gateway.agents -> mcp: act { class: flow }
+mcp -> gateway.agents: results { class: dataflow }
+gateway.agents -> deliver: ship { class: accent }
+memory.blackboard -> gateway.orchestrator: tasks { class: dataflow }
+gateway.agents -> memory.blackboard: write { class: dataflow }
+memory.brain -> gateway.agents: context { class: dataflow }
