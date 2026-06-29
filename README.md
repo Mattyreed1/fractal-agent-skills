@@ -96,9 +96,12 @@ Claude Code loads skills from `~/.claude/skills/`. Drop in the ones you want:
 ```bash
 git clone https://github.com/Mattyreed1/fractal-agent-skills.git
 cp -R fractal-agent-skills/deep-deliberation fractal-agent-skills/devils-advocate \
+      fractal-agent-skills/last30days fractal-agent-skills/research \
       fractal-agent-skills/judge fractal-agent-skills/action-plan fractal-agent-skills/coo \
       fractal-agent-skills/agent-collab ~/.claude/skills/
 ```
+
+Lite mode note: `deep-deliberation` can still run without live research keys, but stages 2-3 (`last30days`, `research`) will be limited until you configure their APIs.
 
 Then, in any Claude Code session:
 
