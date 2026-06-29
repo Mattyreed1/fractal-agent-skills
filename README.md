@@ -1,4 +1,4 @@
-# mr-agent-skills
+# fractal-agent-skills
 
 A collection of [Claude Code](https://docs.claude.com/en/docs/claude-code) skills for AI agent workflows — built around one idea:
 

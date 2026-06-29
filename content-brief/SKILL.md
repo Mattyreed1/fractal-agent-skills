@@ -153,7 +153,7 @@ Past content, projects, or KG entries that overlap or build on this. **Link each
 ## Lead Magnet
 The asset that will accompany this content. Name + format + status.
 
-[e.g. "Agent Memory Starter Kit — GitHub repo with templates and schemas. Status: needs to be built." OR `[NEEDS INPUT]` if undecided.]
+[e.g. "Fractal Agent Team Memory — GitHub repo with templates and schemas. Status: needs to be built." OR `[NEEDS INPUT]` if undecided.]
 
 ## Visual Suggestions
 What artifacts/diagrams could support the piece. Hook-agnostic — describe the *substance* to render, not the headline framing.

@@ -33,7 +33,7 @@ Fractal AI agent team architecture
 Builders/developers working with AI agents, frustrated by context loss
 
 ## Lead Magnet
-GitHub repo — agent-memory-starter-kit (templates, schemas, prompts, examples)
+GitHub repo — fractal-agent-team-memory (templates, schemas, prompts, examples)
 
 ## Visual Suggestions
 1. Architecture data flow diagram: 5 components as boxes, labeled arrows for write/read paths
