@@ -71,7 +71,7 @@ The stages lean on supporting skills: `content-hooks` calls `hook-machine`, `con
 | `mcp-setup` | Install, configure, and debug MCP servers |
 | `skill-creator` | Create, edit, and eval-test Claude Code skills |
 | `skillforge` | Route to or create the right skill; dedupe before building |
-| `agent-onboarding` | Onboard a new agent (Hermes) with a completion checklist the new agent verifies itself |
+| `agent-onboarding` | Onboard a new agent (OpenClaw or Hermes) to Discord/Slack, with a completion checklist the new agent verifies itself |
 | **Content Engine** | |
 | `content-pipeline` | Orchestrate a piece through the 7 content stages |
 | `content-strategy` | Plan pillars, editorial calendar, channel mix (the layer above) |

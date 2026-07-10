@@ -1,8 +1,8 @@
 # Channel: Slack
 
-A **native Hermes channel** (not a skill), over Socket Mode (no public URL). When something's wrong, **ask the agent to read its own logs** — it will name the exact missing scope/event.
+A Slack channel over Socket Mode (no public URL). **Native on Hermes**; on **OpenClaw** via the externalized `@openclaw/slack` plugin (version-pin it to the image tag). The Slack app, scopes, and tokens below are identical for both — only where the tokens live differs. When something's wrong, **ask the agent to read its own logs** — it will name the exact missing scope/event.
 
-Secrets go in `~/.hermes/.env`, **uncommented** (the file ships with them commented; a value after a `#` is ignored):
+The three values below are what the runtime needs. **Hermes:** put them in `~/.hermes/.env`, **uncommented** (the file ships with them commented; a value after a `#` is ignored). **OpenClaw:** put the same three in the `@openclaw/slack` plugin config.
 ```
 SLACK_BOT_TOKEN=xoxb-...      # Bot User OAuth Token (sends + reads)
 SLACK_APP_TOKEN=xapp-...      # App-Level Token for Socket Mode — REQUIRED; the bot token alone won't connect
