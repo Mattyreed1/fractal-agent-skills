@@ -53,7 +53,7 @@ See [`references/architecture-patterns.md`](references/architecture-patterns.md)
 
 ## The 9-step migration checklist
 
-1. **Get the existing workflow JSON.** Use the `mcp__mr-n8n__n8n_get_workflow` MCP tool (server prefix varies by instance: mr-n8n / bb-n8n / mippo-n8n / scaleagency-n8n; defer to `n8n` skill).
+1. **Get the existing workflow JSON.** Use the `n8n_get_workflow` MCP tool (the `mcp__<server>__` prefix matches your n8n MCP server name; defer to the `n8n` skill).
 2. **Extract every AI prompt verbatim** into separate `prompts/<name>.md` files inside the new skill. Don't paraphrase — copy exactly. The same prompts that worked in n8n work in Claude Code.
 3. **Extract every external system mapping** (Notion DB IDs + property keys, Drive folder IDs, Slack channels, etc.) into `references/<system>-mapping.md` files.
 4. **Document the webhook payload shape** at `references/payload-schema.md`. Include both raw shape and any compaction that happens.

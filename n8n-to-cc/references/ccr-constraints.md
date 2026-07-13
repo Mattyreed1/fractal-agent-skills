@@ -7,7 +7,7 @@ What works and what doesn't in the cloud sandbox that runs a fired routine.
 - The routine's linked GitHub repo is **cloned fresh** at session start.
 - Branch = whatever the routine config says (default `main`).
 - Files written during the session are ephemeral — they don't persist beyond the session unless the skill commits them back to the repo.
-- `/Users/...`, `~/.local/bin/...`, project-local `node_modules`, and any other local-Mac paths **don't exist**.
+- Absolute home-directory paths, `~/.local/bin/...`, project-local `node_modules`, and any other local-machine paths **don't exist**.
 
 ### Symlink rule
 
