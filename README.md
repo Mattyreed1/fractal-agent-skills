@@ -89,6 +89,7 @@ The stages lean on supporting skills: `content-hooks` calls `hook-machine`, `con
 | `lead-magnet` | Turn expertise into a downloadable lead magnet |
 | `youtube-script` | Long-form founder-story / personal-journey video scripts |
 | `notion` | Notion MCP setup, schema-caching discipline, and API gotchas |
+| `n8n-to-cc` | Convert an n8n workflow into a Claude Code Routine + versioned skill |
 
 ## Install
 
