@@ -75,7 +75,13 @@ Notion page in Resources teamspace:
 - Embed Tally form
 - Add visuals
 - Update copy to match final script angle
-- Sections: Headline, Who it's for, What this is, Why it matters, How it works, Get it, About Fractal AI + cal.com link
+- Sections: Headline, Who it's for, What this is, Why it matters, How it works, Get it, About + booking link
+
+**Copy — HARD RULE:** write the landing page in the founder's brand voice, clear and concise. Short lines. Lead with what the thing IS and the real proof (named specifics and real numbers, not adjectives), not a preamble. Every line must say something true and specific about THIS lead magnet — cut anything that could bolt onto any page. State the point, then stop. Run the copy through the `writing` skill's anti-ai-slop rules before publishing: no "It's not just X, it's Y", no "Here's why:", no "unlock / supercharge / game-changer", no generic conclusions, minimal em dashes, no invented analogies or fabricated claims.
+
+**CTA link — HARD RULE:** the About / booking CTA on a lead magnet ALWAYS uses the audit / discovery booking link, NEVER the priority/warm-contact booking link. Keep the two straight per your own cal config.
+
+**Publish check — HARD RULE:** a Notion page created via API is NOT publicly live until published to web (Share → Publish, a UI-only toggle). A `curl` 200 on the `notion.site` URL proves nothing — Notion serves a soft-200 "couldn't be found" shell for unpublished pages. Verify by reading the rendered page content and confirm the public URL renders before reporting the funnel live.
 
 ### 4. Assemble final post
 
