@@ -1,6 +1,6 @@
 ---
 name: scrape
-description: Multi-tool web scraping and lead enrichment workflow. Use when asked to scrape pages, enrich leads, research a person or company from LinkedIn, crawl sites, extract lists/tables/content, handle JavaScript-heavy targets, fetch X/Twitter posts, search/scrape Reddit threads, or set up and run scraping tools via MCP. For LinkedIn enrichment, uses Firecrawl Agent + Perplexity + web search in parallel, with Apify escalation.
+description: Multi-tool web scraping and lead enrichment workflow. Use when asked to scrape pages, enrich leads, research a person or company from LinkedIn, crawl sites, extract lists/tables/content, handle JavaScript-heavy targets, fetch X/Twitter posts or audiences, search/scrape Reddit threads, or set up and run scraping tools via MCP. For LinkedIn enrichment, uses Firecrawl Agent + Perplexity + web search in parallel, with Apify escalation.
 ---
 
 # Scrape
@@ -39,7 +39,8 @@ Execute web data extraction with a method ladder: always try Firecrawl MCP first
 | Edge case: Public JSON endpoints | `curl`, `jq` |
 | **LinkedIn profiles** (linkedin.com/in/*) | **Firecrawl Agent** (`firecrawl_agent`) → Apify (`linkedin-profile-scraper`) |
 | **Lead enrichment** (person + company research) | **Firecrawl Agent + Perplexity + Web Search** in parallel, Apify escalation |
-| **X/Twitter posts** (x.com or twitter.com URLs) | **xAI API** (`x_search` tool via curl) |
+| **X posts, search, timelines, lists, and threads** | **Xquik X Tweet Scraper** (`xquik/x-tweet-scraper`) |
+| **X followers, following, lists, and communities** | **Xquik X Follower Scraper** (`xquik/x-follower-scraper`) |
 | **Reddit posts/threads** (reddit.com URLs) | **Reddit JSON API** (append `.json` to URL) |
 | **Reddit search** (find posts about a topic) | **Reddit JSON API** (`/search.json`) |
 
@@ -87,11 +88,9 @@ Run these in parallel with Steps 1-2:
 
 Use when Firecrawl agent returns incomplete data (missing education, certifications, skills, posts) OR when you need the full unabridged profile.
 
-**Requires:** `APIFY_TOKEN` in `~/.config/mr-ea/.env`
+**Requires:** `APIFY_TOKEN` exported in the environment.
 
 ```bash
-APIFY_TOKEN=$(grep '^APIFY_TOKEN=' ~/.config/mr-ea/.env 2>/dev/null | cut -d= -f2)
-
 # Via mcpc (if installed)
 mcpc @apify tools-call call-actor \
   actorId:="apify/linkedin-profile-scraper" \
@@ -99,7 +98,9 @@ mcpc @apify tools-call call-actor \
   --json
 
 # Via direct API (if mcpc not available)
-curl -s -X POST "https://api.apify.com/v2/acts/apify~linkedin-profile-scraper/runs?token=$APIFY_TOKEN" \
+curl --fail --silent --show-error -X POST \
+  "https://api.apify.com/v2/acts/apify~linkedin-profile-scraper/runs" \
+  -H "Authorization: Bearer ${APIFY_TOKEN}" \
   -H "Content-Type: application/json" \
   -d '{"profileUrls":["https://linkedin.com/in/HANDLE"]}'
 ```
@@ -218,9 +219,40 @@ for post in d['data']['children']:
 - **Comments are nested** — top-level comments are in `[1].data.children[]`. Replies are in `.data.replies.data.children[]` (recursive).
 - **Reference implementation** — see `~/.claude/skills/last30days/scripts/lib/reddit_enrich.py` for a battle-tested parser that extracts engagement metrics, top comments, and insights.
 
-## X/Twitter Posts (xAI API)
+## X/Twitter Data (Xquik Apify Actors)
 
-**URL detection**: If the target URL matches `x.com/*/status/*` or `twitter.com/*/status/*`, skip Firecrawl entirely and use the xAI API.
+Use these Actors when the result must be a repeatable structured dataset. Inspect
+each Actor's current input schema and live Apify pricing before every run.
+
+| Need | Actor | Coverage |
+| --- | --- | --- |
+| Posts and conversations | [X Tweet Scraper](https://apify.com/xquik/x-tweet-scraper) (`xquik/x-tweet-scraper`) | URLs and IDs, search, profiles, lists, articles, replies, quotes, threads, retweeters, and best-effort favoriters |
+| Audiences and relationships | [X Follower Scraper](https://apify.com/xquik/x-follower-scraper) (`xquik/x-follower-scraper`) | Followers, following, verified followers, list members/followers, and community members |
+
+Read [Xquik Apify Actors](references/xquik-apify-actors.md) before using either
+Actor. It contains live-schema commands, bounded inputs, output controls, and
+the authorized run pattern.
+
+1. Open its Apify listing and inspect the current pricing.
+2. Show the exact input, expected billable units, and configured spend cap.
+3. Get explicit user approval.
+4. Run a bounded sample before scaling.
+
+`maxItems` caps the whole run across all terms or targets. Preserve diagnostic
+rows when a target is unavailable. Never invent missing records. Use an
+authorization header. Never put `APIFY_TOKEN` in a URL.
+
+Xquik is an independent third-party service. Not affiliated with X Corp.
+"Twitter" and "X" are trademarks of X Corp.
+
+## X/Twitter Posts (xAI API Alternative)
+
+Use xAI when the user needs a synthesized answer instead of a structured Actor
+dataset.
+
+**URL detection**: If the target URL matches `x.com/*/status/*` or
+`twitter.com/*/status/*`, skip Firecrawl entirely. Use this alternative only
+when synthesis is the requested output.
 
 **CRITICAL**: Use `curl`, NOT Python `urllib`. Cloudflare blocks non-browser User-Agents on `api.x.ai` (error 1010).
 
@@ -399,15 +431,19 @@ When Firecrawl fails (anti-bot, JS rendering, empty results after retries), sear
 ### Step 1: Search for Actors via API
 
 ```bash
-APIFY_TOKEN=$(grep '^APIFY_TOKEN=' ~/.config/mr-ea/.env 2>/dev/null | cut -d= -f2)
-
 # Search by target site or data type
-curl -s "https://api.apify.com/v2/store?token=$APIFY_TOKEN&search=TARGET_SITE_OR_KEYWORD&limit=10&sortBy=popularity" | \
+curl --fail --silent --show-error --get \
+  "https://api.apify.com/v2/store" \
+  -H "Authorization: Bearer ${APIFY_TOKEN}" \
+  --data-urlencode "search=TARGET_SITE_OR_KEYWORD" \
+  --data "limit=10" \
+  --data "sortBy=popularity" | \
   python3 -c "
 import sys, json
 data = json.load(sys.stdin)
 for actor in data.get('data', {}).get('items', []):
-    pricing = actor.get('pricingModel', 'UNKNOWN')
+    current_pricing = actor.get('currentPricingInfo') or {}
+    pricing = current_pricing.get('pricingModel', 'UNKNOWN')
     # Skip actors with flat monthly pricing
     if pricing in ('FLAT_PRICE_PER_MONTH',):
         continue
@@ -417,11 +453,9 @@ for actor in data.get('data', {}).get('items', []):
     stats = actor.get('stats', {})
     runs = stats.get('totalRuns', 0)
     users = stats.get('totalUsers', 0)
-    price_usd = actor.get('pricingPerEvent', {})
-    event_price = price_usd.get('pricePerEvent', 'N/A') if price_usd else 'N/A'
     print(f\"Actor: {name}\")
     print(f\"  ID: {actor_id}\")
-    print(f\"  Pricing: {pricing} | Per event: \${event_price}\")
+    print(f\"  Pricing: {pricing}\")
     print(f\"  Runs: {runs:,} | Users: {users:,}\")
     print(f\"  {desc}\")
     print()
@@ -431,57 +465,45 @@ for actor in data.get('data', {}).get('items', []):
 ### Step 2: Get Actor Pricing Details
 
 ```bash
-# Get full actor info including pricing tiers
-curl -s "https://api.apify.com/v2/acts/ACTOR_ID?token=$APIFY_TOKEN" | \
-  python3 -c "
-import sys, json
-d = json.load(sys.stdin).get('data', {})
-print(f\"Name: {d.get('title')}\")
-print(f\"Pricing model: {d.get('pricingModel')}\")
-pe = d.get('pricingPerEvent', {})
-if pe:
-    print(f\"Price per event: \${pe.get('pricePerEvent', 'N/A')}\")
-    print(f\"Event description: {pe.get('eventDescription', 'N/A')}\")
-    print(f\"Min events: {pe.get('minimumNumberOfEvents', 'N/A')}\")
-else:
-    print('Pay per platform usage (Apify compute units)')
-    print('Estimate: ~\$0.25-2.00 per 1,000 results depending on complexity')
-print(f\"Description: {(d.get('description') or '')[:200]}\")
-"
+# Replace ACTOR_REST_ID with the API form username~actor-name.
+curl --fail --silent --show-error \
+  "https://api.apify.com/v2/acts/ACTOR_REST_ID" \
+  -H "Authorization: Bearer ${APIFY_TOKEN}" | \
+  jq '{
+    actor: (.data.username + "/" + .data.name),
+    pricing: (.data.pricingInfos | sort_by(.startedAt // .createdAt) | last)
+  }'
 ```
+
+Confirm the returned pricing against the live Actor listing.
 
 ### Step 3: Present Options to User
 
 **Before running any Apify actor, ALWAYS present the user with:**
 
-1. **Actor name and ID** — what it does
-2. **Pricing model** — per-event, per-result, or platform usage
-3. **Estimated cost** — calculate based on the user's expected volume:
-   - Per-event actors: `price_per_event × expected_results`
-   - Platform-usage actors: estimate ~$0.25-2.00 per 1,000 results
-4. **Popularity signal** — total runs and users (higher = more reliable)
-5. **Ask for explicit confirmation** before running
+1. **Actor name and ID:** what it does
+2. **Live pricing:** quote the current listing, never a cached value
+3. **Bounded exposure:** expected units, item limits, and account spend cap
+4. **Popularity signal:** total runs and users
+5. **Explicit confirmation:** ask before starting a billable run
 
 Example presentation:
-```
-Firecrawl couldn't scrape [site] — it's blocked by anti-bot protection.
-I found these Apify actors that could handle it:
 
-1. **Google Maps Scraper** (apify/google-maps-scraper)
-   - $0.50 per 1,000 results | 2.1M total runs | 45K users
-   - For ~500 results: estimated cost ~$0.25
+```text
+Firecrawl couldn't scrape [site]. Anti-bot protection blocked it.
+I found **[Actor name]** (`owner/actor`).
+- Current pricing: [pricing model and unit prices from the live listing]
+- Proposed sample: [input summary and item limit]
+- Maximum exposure: [calculation using current prices and spend cap]
+- Popularity: [current total runs and users]
 
-2. **Web Scraper** (apify/web-scraper)  
-   - Platform usage (~$1.50/1K pages) | 890K runs | 22K users
-   - For ~50 pages: estimated cost ~$0.08
-
-Want me to try one of these?
+May I start this bounded sample?
 ```
 
 ### Pricing Filter Rules
 
 | Pricing Model | Action |
-|---------------|--------|
+| --- | --- |
 | `PAY_PER_EVENT` | Suggest — show per-event price × expected volume |
 | `PRICE_PER_DATASET_ITEM` | Suggest — show per-item price × expected items |
 | `FREE` | Suggest — note it uses Apify compute units (platform cost still applies) |
@@ -491,34 +513,46 @@ Want me to try one of these?
 
 ```bash
 # Run the actor with a small sample first
-curl -s -X POST "https://api.apify.com/v2/acts/ACTOR_ID/runs?token=$APIFY_TOKEN" \
+curl --fail --silent --show-error -X POST \
+  "https://api.apify.com/v2/acts/ACTOR_REST_ID/runs" \
+  -H "Authorization: Bearer ${APIFY_TOKEN}" \
   -H "Content-Type: application/json" \
   -d '{"startUrls":[{"url":"TARGET_URL"}],"maxItems":2}'
 
 # Check run status
-curl -s "https://api.apify.com/v2/actor-runs/RUN_ID?token=$APIFY_TOKEN" | \
-  python3 -c "import sys,json; d=json.load(sys.stdin)['data']; print(f\"Status: {d['status']} | Items: {d.get('stats',{}).get('itemCount',0)} | Cost: \${d.get('usageTotalUsd',0):.4f}\")"
+curl --fail --silent --show-error \
+  "https://api.apify.com/v2/actor-runs/RUN_ID" \
+  -H "Authorization: Bearer ${APIFY_TOKEN}" | \
+  jq -r '.data |
+    "Status: \(.status) | Items: \(.stats.itemCount // 0) | Cost: $\(.usageTotalUsd // 0)"'
 
 # Fetch results
-curl -s "https://api.apify.com/v2/actor-runs/RUN_ID/dataset/items?token=$APIFY_TOKEN&limit=10"
+curl --fail --silent --show-error --get \
+  "https://api.apify.com/v2/actor-runs/RUN_ID/dataset/items" \
+  -H "Authorization: Bearer ${APIFY_TOKEN}" \
+  --data "limit=10"
 ```
 
-Always run a small sample (1-2 items) first, verify the data quality, then scale up only after user confirms.
+Always run a small sample first. Verify its quality. Scale only after approval.
 
 ### Step 5: Incorporate Proven Actors (Learning Loop)
 
-After a successful Apify actor run, **ask the user if this actor should be added to the skill for automatic use next time.** Do not silently add it — always confirm first.
+After a successful run, ask before adding the Actor as a default. Never add it
+silently.
 
 **Prompt template:**
-```
-✅ [Actor Name] worked well for [use case]. 
+
+```text
+✅ [Actor Name] worked well for [use case].
 Results: [X items, $Y cost, quality summary].
 
 Should I add this as a default actor for [site/use case] in the scrape skill?
 That way next time I'll use it automatically instead of going through discovery.
 ```
 
-**If the user confirms**, add the actor to the **Proven Apify Actors** table below and update the **Tool Selection Matrix** with a new row mapping the use case to the actor. Include the actor ID, typical input config, and per-event cost at time of addition.
+**If the user confirms**, update the **Proven Apify Actors** table and **Tool
+Selection Matrix**. Include the Actor ID, listing, typical input, and validation
+date. Never commit volatile pricing.
 
 **If the user declines**, do nothing — the actor remains a one-off.
 
@@ -527,8 +561,8 @@ That way next time I'll use it automatically instead of going through discovery.
 Actors that have been tested and approved for automatic use. **Check this table BEFORE running Apify Actor Discovery** — if a proven actor exists for the use case, skip discovery and use it directly (still show the user the estimated cost before running).
 
 | Use Case | Actor ID | Pricing | Typical Input | Added |
-|----------|----------|---------|---------------|-------|
-| LinkedIn profiles | `apify/linkedin-profile-scraper` | Per event | `{"profileUrls":["URL"]}` | pre-existing |
+| --- | --- | --- | --- | --- |
+| LinkedIn profiles | `apify/linkedin-profile-scraper` | [Live listing](https://apify.com/apify/linkedin-profile-scraper) | `{"profileUrls":["URL"]}` | pre-existing |
 <!-- Add new proven actors here as they are approved -->
 
 ## Output Quality Gates
