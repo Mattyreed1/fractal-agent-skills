@@ -39,7 +39,7 @@ Execute web data extraction with a method ladder: always try Firecrawl MCP first
 | Edge case: Public JSON endpoints | `curl`, `jq` |
 | **LinkedIn profiles** (linkedin.com/in/*) | **Firecrawl Agent** (`firecrawl_agent`) → Apify (`linkedin-profile-scraper`) |
 | **Lead enrichment** (person + company research) | **Firecrawl Agent + Perplexity + Web Search** in parallel, Apify escalation |
-| **X posts, search, timelines, lists, and threads** | **Xquik X Tweet Scraper** (`xquik/x-tweet-scraper`) |
+| **X posts, search, timelines, lists, and threads** | **xAI API** for synthesis or **Xquik X Tweet Scraper** for structured datasets |
 | **X followers, following, lists, and communities** | **Xquik X Follower Scraper** (`xquik/x-follower-scraper`) |
 | **Reddit posts/threads** (reddit.com URLs) | **Reddit JSON API** (append `.json` to URL) |
 | **Reddit search** (find posts about a topic) | **Reddit JSON API** (`/search.json`) |
@@ -242,8 +242,7 @@ the authorized run pattern.
 rows when a target is unavailable. Never invent missing records. Use an
 authorization header. Never put `APIFY_TOKEN` in a URL.
 
-Xquik is an independent third-party service. Not affiliated with X Corp.
-"Twitter" and "X" are trademarks of X Corp.
+Xquik is an independent third-party service. Not affiliated with X Corp. "Twitter" and "X" are trademarks of X Corp.
 
 ## X/Twitter Posts (xAI API Alternative)
 

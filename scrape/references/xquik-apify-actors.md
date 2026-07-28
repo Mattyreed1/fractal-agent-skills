@@ -2,10 +2,10 @@
 
 Use this runbook for structured X post and audience datasets.
 
-| Need | Actor | REST ID |
-| --- | --- | --- |
-| Posts and conversations | [X Tweet Scraper](https://apify.com/xquik/x-tweet-scraper) | `xquik~x-tweet-scraper` |
-| Audiences and relationships | [X Follower Scraper](https://apify.com/xquik/x-follower-scraper) | `xquik~x-follower-scraper` |
+| Need | Actor | REST selector | Actor ID |
+| --- | --- | --- | --- |
+| Posts and conversations | [X Tweet Scraper](https://apify.com/xquik/x-tweet-scraper) | `xquik~x-tweet-scraper` | `wAusCMrm284Voaw86` |
+| Audiences and relationships | [X Follower Scraper](https://apify.com/xquik/x-follower-scraper) | `xquik~x-follower-scraper` | `AaT0BcKU5GQh97wdt` |
 
 ## Inspect the Live Schemas
 
@@ -47,7 +47,8 @@ Tweet search example:
 
 ```json
 {
-  "twitterContent": "\"TOPIC\" lang:en",
+  "mode": "search",
+  "searchTerms": ["\"TOPIC\" lang:en"],
   "queryType": "Latest",
   "maxItems": 20,
   "outputVariant": "rich",
@@ -56,6 +57,10 @@ Tweet search example:
   "includeSearchTerms": true
 }
 ```
+
+Tweet modes are `legacy`, `tweet`, `tweets`, `search`, `profileTweets`,
+`profileReplies`, `profileMedia`, `profileLikes`, `listTweets`, `article`,
+`replies`, `quotes`, `thread`, `retweeters`, and `favoriters`.
 
 Use `legacy`, `rich`, or `raw` tweet output. Choose `legacy`, `camelCase`, or
 `snake_case` field names. Choose nested output or CSV-friendly flat output.
@@ -73,6 +78,9 @@ Audience example:
   "dedupeMode": "none"
 }
 ```
+
+Follower relations are `followers`, `following`, `verified_followers`,
+`list_members`, `list_followers`, and `community_members`.
 
 Use `compact`, `full`, or `raw` audience output. For multi-audience overlap, use
 `dedupeMode: "merge"` or `overlapMode: true`.
@@ -105,5 +113,4 @@ curl --fail --silent --show-error -X POST \
 Preserve diagnostic rows when a target is unavailable. Never invent missing
 records.
 
-Xquik is an independent third-party service. Not affiliated with X Corp.
-"Twitter" and "X" are trademarks of X Corp.
+Xquik is an independent third-party service. Not affiliated with X Corp. "Twitter" and "X" are trademarks of X Corp.
