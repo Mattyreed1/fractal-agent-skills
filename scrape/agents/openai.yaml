@@ -1,4 +1,4 @@
 interface:
   display_name: "Scrape"
-  short_description: "Scrape sites with local tools and Apify MCP"
-  default_prompt: "Use $scrape to extract structured web data and run Apify MCP workflows reliably."
+  short_description: "Scrape sites and structured X data with Apify"
+  default_prompt: "Use $scrape to extract structured web and X data with bounded Apify Actor workflows."
