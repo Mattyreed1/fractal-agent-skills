@@ -1,0 +1,31 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<link rel="stylesheet" href="common.css"><link rel="stylesheet" href="common2.css">
+<style>
+  .box { display: flex; flex-direction: column; align-items: center; gap: 16px; padding: 36px 62px;
+         background: rgba(9,9,11,0.88); border: 1px solid rgba(255,255,255,0.18); }
+  .row { display: flex; align-items: baseline; gap: 24px; font-family: 'Geist Mono', monospace; font-weight: 800; }
+  #n { font-size: 150px; line-height: 1; }
+  .unit { font-size: 54px; color: var(--text); }
+  .sub { font-family: 'Geist Mono', monospace; font-size: 33px; color: var(--text-muted); letter-spacing: 0.08em; }
+</style></head>
+<body class="alpha">
+<div id="stage">
+  <div class="float-center">
+    <div class="box" id="box">
+      <div class="row"><span id="n" class="grad-text">0</span><span class="unit">CONVERSATIONS</span></div>
+    </div>
+  </div>
+</div>
+<script src="common.js"></script>
+<script>
+// place @290 · dur 94 · count rides "2.3 million"[296-325] · exit ends ON cut @384
+window.TOTAL_FRAMES = 94;
+window.MOTION_RANGES = [[0, 34], [84, 94]];
+window.seek = f => {
+  enter($('box'), f, 0, 12, 42);
+  count($('n'), f, 6, 30, 0, 2300000, v => (v/1e6).toFixed(1) + 'M');
+  $('stage').style.opacity = 1 - rng(f, 86, 94);
+};
+</script>
+</body></html>
