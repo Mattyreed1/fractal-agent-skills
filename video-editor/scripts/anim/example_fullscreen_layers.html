@@ -1,0 +1,46 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<link rel="stylesheet" href="common.css"><link rel="stylesheet" href="common2.css">
+<style>
+  .stack { display: flex; flex-direction: column; gap: 26px; }
+  .slab { height: 190px; display: flex; align-items: center; gap: 40px; padding: 0 48px;
+          background: var(--surface); border: 3px solid rgba(255, 255, 255, 0.22); }
+  .slab .n { font-family: 'Geist Mono', monospace; font-weight: 800; font-size: 88px; color: var(--text-muted); }
+  .slab .t { font-weight: 800; font-size: 58px; line-height: 1.08; letter-spacing: -0.01em; }
+  #slab3 { background: var(--grad); border: none; }
+  #slab3 .n, #slab3 .t { color: #06060a; }
+  .chips { display: flex; gap: 18px; margin-top: 44px; flex-wrap: wrap; }
+  .chip { font-family: 'Geist Mono', monospace; font-size: 32px; font-weight: 700; letter-spacing: 0.04em;
+          padding: 16px 24px; border: 2px solid rgba(0, 198, 162, 0.55); color: var(--teal); opacity: 0; }
+</style></head>
+<body class="brand-bg">
+<div class="fs">
+  <div class="eyebrow" id="eb">3 LAYERS NEED TO EXIST</div>
+  <div class="stack">
+    <div class="slab" id="slab1"><div class="n">1</div><div class="t">UNIFIED CONTEXT INFRASTRUCTURE</div></div>
+    <div class="slab" id="slab2"><div class="n">2</div><div class="t">COHERENT AI WORKER TOOLKIT</div></div>
+    <div class="slab" id="slab3"><div class="n">3</div><div class="t">INTENT ENGINEERING</div></div>
+  </div>
+  <div class="chips">
+    <div class="chip" id="c1">KPIs</div>
+    <div class="chip" id="c2">DELEGATION FRAMEWORKS</div>
+    <div class="chip" id="c3">DRIFT FEEDBACK LOOPS</div>
+  </div>
+</div>
+<img class="fslogo" src="logo.png">
+<script src="common.js"></script>
+<script>
+// place @2008 · slab1 "one"[2028] · slab2 "two"[2102] · slab3 "three"[2190] · chips [2238/2274/2332] · out by 2371 (zoom follows)
+window.TOTAL_FRAMES = 363;
+window.MOTION_RANGES = [[0, 16], [20, 40], [94, 114], [182, 202], [226, 242], [264, 280], [322, 338]];
+window.seek = f => {
+  enter($('eb'), f, 2, 14, 24);
+  enter($('slab1'), f, 22, 38, 64);
+  enter($('slab2'), f, 96, 112, 64);
+  enter($('slab3'), f, 184, 200, 64);
+  enter($('c1'), f, 228, 240, 20);
+  enter($('c2'), f, 266, 278, 20);
+  enter($('c3'), f, 324, 336, 20);
+};
+</script>
+</body></html>

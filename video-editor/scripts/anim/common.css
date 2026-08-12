@@ -1,0 +1,49 @@
+@import url('https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&family=Geist+Mono:wght@400;500;700;800&family=Silkscreen:wght@400;700&display=swap');
+
+:root {
+  --bg: #09090b; --surface: #111113; --border: #1c1c22;
+  --text: #fafafa; --text-muted: #71717a;
+  --teal: #00c6a2; --blue-end: #0077ff; --pink: #ec4899; --red: #ef4444; --amber: #f59e0b;
+  --grad: linear-gradient(135deg, #00c6a2, #0077ff);
+  --glass-bg: rgba(17, 17, 19, 0.55);
+  --glass-border: rgba(255, 255, 255, 0.14);
+}
+* { margin: 0; padding: 0; box-sizing: border-box; border-radius: 0 !important; }
+html, body { width: 100%; height: 100%; overflow: hidden; }
+body { font-family: 'Geist', sans-serif; color: var(--text); }
+
+/* opaque full-frame brand background (full-screens + top-half panels) */
+body.brand-bg {
+  background-color: var(--bg);
+  background-image:
+    radial-gradient(circle at 50% 0%, rgba(0,198,162,0.16), transparent 52%),
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24'><rect x='0' y='0' width='2' height='2' fill='%23ffffff' fill-opacity='0.14'/></svg>");
+  background-size: 100% 100%, 24px 24px;
+  background-position: 0 0, 12px 12px;
+}
+/* dead-center float zone (exact screen center — floats over b-roll panels) */
+.float-center { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; }
+/* transparent overlay canvas */
+body.alpha { background: transparent; }
+
+.eyebrow {
+  font-family: 'Silkscreen', monospace; font-weight: 400;
+  font-size: 30px; letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--teal);
+}
+.mono { font-family: 'Geist Mono', monospace; }
+.grad-text {
+  background: var(--grad);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.glass {
+  background: var(--glass-bg);
+  backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
+  border: 1px solid var(--glass-border);
+}
+/* solid card for alpha overlays (backdrop-filter can't blur live video underneath) */
+.card {
+  background: rgba(9, 9, 11, 0.86);
+  border: 1px solid var(--glass-border);
+}
+.grad-bar { background: var(--grad); }
