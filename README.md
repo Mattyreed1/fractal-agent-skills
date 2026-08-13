@@ -61,7 +61,7 @@ The stages lean on supporting skills: `content-hooks` calls `hook-machine`, `con
 | `research` | Deep web research via Perplexity |
 | `last30days` | Reddit + X + web research from the last 30 days |
 | `writing` | Headlines, hooks, structure, anti-AI-slop rules |
-| `scrape` | Web scraping + lead enrichment method ladder |
+| `scrape` | Web scraping + lead enrichment, including structured X post and audience data |
 | `browser` | Route between real-browser control and headless automation |
 | `design-principles` | A product/UX design constitution — action-first, progressive disclosure, simplicity |
 | `frontend-design` | Distinctive, production-grade frontend interfaces |
